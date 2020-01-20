@@ -21,6 +21,16 @@ app.use(bodyParser, urlencoded({
 }));
 
 app.use(router);
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+
+mongoose.connect(MONGODB_URI, function(error) {
+    if (error) {
+        console.log(error);
+    } else {
+        console.log("mongoose connection is successful");
+    }
+});
+
 
 app.listen(PORT, function() {
     console.log("Listening on port:" + PORT);
