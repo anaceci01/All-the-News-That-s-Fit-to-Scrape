@@ -9,6 +9,8 @@ var app = express();
 
 var router = express.Router();
 
+require("./config/route")(router);
+
 app.use(express.static("/public"));
 
 app.engine("handlebars", expressHandlebars({
