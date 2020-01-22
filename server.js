@@ -11,7 +11,10 @@ var router = express.Router();
 
 require("./config/route")(router);
 
-app.use(express.static("/public"));
+app.use(express.json());
+
+//changed from only '/public to see if path to css file
+app.use(express.static("public"));
 
 app.engine("handlebars", expressHandlebars({
     defaultLayout: "main"
