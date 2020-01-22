@@ -17,5 +17,16 @@ module.exports = {
     },
     delete: function(query, cb) {
         HeadLine.remove(query, cb);
+    },
+    get: function(query, cb) {
+        HeadLine.find(query).sort({ _id: -1 })
+            .exec(function(err, doc) {
+                cb(doc);
+            });
+    },
+    update: function(query, cb) {
+        HeadLine.update({ _id: query._id }, {
+            $set: query
+        }, {}, cb);
     }
 }

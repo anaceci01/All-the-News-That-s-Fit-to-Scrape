@@ -20,6 +20,10 @@ html {
     margin-bottom: 0;
 }
 
+.navbar-brand {
+    font-family: 'Abril Fatface', cursive;
+}
+
 .jumbotron {
     position: relative;
     width: 100%;
@@ -50,7 +54,7 @@ html {
 
 .jumbotron .caption {
     position: absolute;
-    top: 18%;
+    top: 15%;
     width: 100%;
     text-align: center;
 }
