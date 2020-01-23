@@ -8,7 +8,6 @@ module.exports = function(router) {
     router.get("/", function(req, res) {
         res.render("home");
     });
-
     router.get("/saved", function(req, res) {
         res.render("saved");
     });
@@ -41,6 +40,11 @@ module.exports = function(router) {
             res.json(data);
         });
     });
+    router.patch("/api/headlines", function(req, res) {
+        headlinesController.update(req.body, function(err, data) {
+            res.json(data);
+        });
+    });
     router.get("/api/notes/:headline_id", function(req, res) {
         var query = {};
         if (req.params.headline_id) {
@@ -50,7 +54,7 @@ module.exports = function(router) {
             res.json(data);
         });
     });
-    router.delete("/api/notes/:id", function(req, res) {
+    router.delete("/api/head/:id", function(req, res) {
         var query = {};
         query._id = req.params.id;
         notesController.delete(query, function(err, data) {

@@ -1,7 +1,7 @@
 $(doucument).ready(function() {
 
     var articleContainer = $(".article-container");
-    $(document).on("click", "btn.save", handleArticleSave);
+    $(document).on("click", ".btn.save", handleArticleSave);
     $(document).on("click", ".scrape-new", handleArticleScrape);
 
     initPage();
@@ -35,8 +35,8 @@ $(doucument).ready(function() {
                 "<a class = 'btn btn-success save'>",
                 "Save Article",
                 "</a>",
-                "</h3",
-                "</div",
+                "</h3>",
+                "</div>",
                 "<div class='panel-body'>",
                 article.summary,
                 "</div>",
@@ -47,7 +47,21 @@ $(doucument).ready(function() {
     }
 
     function renderEmpty() {
-
+        var emptyAlert =
+            $(["<div class='alert alert-warning text-center'>",
+                "<h4> Sorry, we do not have any new articles.</h4>",
+                "</div>",
+                "<div class='panel panel-default'>",
+                "<div class='panel-heading text-center'>",
+                "<h3>What would you like to do?'</h3>",
+                "</div>",
+                "<div class='panel-body text-center'>",
+                "<h4><a class='scrape-new'>Try Scraping New Artices</a></h4>",
+                "<h4><a href='/saved'>Go to Saved Articles</a></h4>",
+                "</div>",
+                "</div>"
+            ].join(""));
+        // append data to the page
         articleContainer.append(emptyAlert);
     }
 
