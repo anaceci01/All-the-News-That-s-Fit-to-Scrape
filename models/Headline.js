@@ -10,7 +10,7 @@ var headlineSchema = new Schema({
     },
     summary: {
         type: String,
-        required: TextTrackCue,
+        required: true,
     },
     date: String,
     saved: {
@@ -21,4 +21,4 @@ var headlineSchema = new Schema({
 
 var Headline = mongoose.model("Headline", headlineSchema);
 
-module.exports = HeadLine;
+module.exports = Headline;
