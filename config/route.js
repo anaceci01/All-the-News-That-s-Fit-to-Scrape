@@ -25,4 +25,29 @@ module.exports = function(router) {
             }
         });
     });
+    router.get("/api/headlines", function(req, res) {
+        var query = {};
+        if (req.query.saved) {
+            query = req.query;
+        }
+        headlinesController.get(query, function(data) {
+            res.json(data);
+        });
+    });
+    router.delete("/api/headlines/:id", function(req, res) {
+        var query = {};
+        query._d = req.params.id;
+        headlinesController.delete(query, function(err, data) {
+            res.json(data);
+        });
+    });
+    router.get("/api/notes/:headline_id", function(req, res) {
+        var query = {};
+        if (req.params.headline_id) {
+            query._id = req.params.headline_id;
+        }
+        notesController.get(query, function(err, data) {
+            res.json(data);
+        });
+    });
 }
