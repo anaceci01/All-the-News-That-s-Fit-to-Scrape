@@ -9,4 +9,4 @@ var makeDate = function() {
     return formattedDate;
 };
 
-module.exports = makeDate
+module.exports = makeDate;
