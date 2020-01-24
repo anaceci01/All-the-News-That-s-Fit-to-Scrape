@@ -1,4 +1,4 @@
-$(doucument).ready(function() {
+$(document).ready(function() {
 
     var articleContainer = $(".article-container");
     $(document).on("click", ".btn.save", handleArticleSave);
@@ -8,14 +8,14 @@ $(doucument).ready(function() {
 
     function initPage() {
         articleContainer.empty();
-        $.get("/api/headlines?saved=false")
-            .then(function(data) {
-                if (data && data.length) {
-                    renderArticles(data);
-                } else {
-                    renderEmpty();
-                }
-            });
+        // $.get("/api/headlines?saved=false")
+        //     .then(function(data) {
+        //         if (data && data.length) {
+        //             renderArticles(data);
+        //         } else {
+        //             renderEmpty();
+        //         }
+        //     });
     }
 
     function renderArticles(articles) {
@@ -64,6 +64,7 @@ $(doucument).ready(function() {
         // append data to the page
         articleContainer.append(emptyAlert);
     }
+
 
     function handleArticleSave() {
         var articleToSave = $(this).parents(".panel").data();
