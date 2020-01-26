@@ -45,9 +45,81 @@ app.get("/scrape", function(req, res) {
             result.link = $(this)
                 .children("a")
                 .attr("href");
+
+            //creating article
+            db.Article.create(result)
+                .then(function(dbArticle) {
+                    console.log(dbArticle);
+                }).catch(function(err) {
+                    console.log(err);
+                });
+
+        });
+        //send message to client
+        res.send("Scraping");
+    });
+});
+app.get("/delArticles", function(req, res) {
+    //saved article
+    db.Article.remove({})
+        .then(function(dbArticle) {
+            console.log(dbArticle);
+        }).catch(function(err) {
+            console.log(err);
+        });
+});
+app.get("/articles", function(req, res) {
+    db.Article.find({})
+        .then(function(dbArticle) {
+            res.json(dbArticle);
         })
-    })
-})
+        .catch(function(err) {
+            res.json(err);
+        });
+});
+app.post("/savedArticles", function(req, res) {
+    db.Saved.create(req.body)
+        .then(function(dbArticle) {
+            console.log(dbArticle);
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
+});
+//route to get artice by id
+app.get("/articles/:id", function(req, res) {
+    db.Article.findOne({ _id: req.params.id })
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function(err) {
+            res.json(err);
+        });
+});
+//route for getting saved articles
+app.get("/.savedArticles", function(req, res) {
+    db.Saved.find({})
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function(err) {
+            res.json(err);
+        });
+});
+app.get("/deleteArticle/:id", function(req, res) {
+    db.Saved.removed({ _id: req.params.id })
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function(err) {
+            res.json(err);
+        });
+});
+//server start
+app.listen(PORT, function() {
+    console.log("App runing on port " + PORT + "!");
+});
+
 
 //.theme-summary
 //.story-heading
