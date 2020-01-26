@@ -1,43 +1,54 @@
 var express = require("express");
+var logger = require("morgan");
 var mongoose = require("mongoose");
-var expressHandlebars = require("express-handlebars");
-var bodyParser = require("body-parser");
+
+// Scraping tools
+var axios = require("axios");
+var cheerio = require("cheerio");
+
+//Require models
+var db = require(".models");
 
 var PORT = process.env.PORT || 3000;
 
 var app = express();
 
-var router = express.Router();
-
-require("./config/route")(router);
-
+//use morgan logger for loggin request
+app.use(logger("dev"));
+//parse request body as json
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-//changed from only '/public to see if path to css file
+//static folder made public
 app.use(express.static("public"));
 
-app.engine("handlebars", expressHandlebars({
-    defaultLayout: "main"
-}));
+MONGODB_URI = process.env.MONGODB_URI || "mongodb://user1:password1@ds211269.mlab.com:11269/heroku_q0vfg6k5";
 
-app.set("view engine", "handlebars");
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
+//connection to mongo db
 
-app.use(router);
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+//scraping
+app.get("/scrape", function(req, res) {
+    //grab body of the html with axios
+    axios.get("http://www.nyt.com/").then(function(response) {
+        //load into cheerio and save it
+        var $ = cheerio.load(response.data);
+        //grab every h2 within an article tag
+        $(".theme-summary").each(function(i, element) {
+            //save an empty result object
+            var result = {};
 
-mongoose.connect(MONGODB_URI, function(error) {
-    if (error) {
-        console.log(error);
-    } else {
-        console.log("mongoose connection is successful");
-    }
-});
+            result.title = $(this)
+                .children("a")
+                .text();
+            result.link = $(this)
+                .children("a")
+                .attr("href");
+        })
+    })
+})
 
-
-app.listen(PORT, function() {
-    console.log("Listening on port:" + PORT);
-});
+//.theme-summary
+//.story-heading
+//e.summary
