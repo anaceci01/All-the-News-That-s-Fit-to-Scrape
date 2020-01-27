@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Scraping With Mongoose</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link>
+    <link rel="stylesheet" href="./style.css" />
+
+</head>
+
+<body>
+    <div class="container">
+        <div clas="row">
+            <div class="jumbotron">
+                <h1 class="display-4">Mongo Scraper</h1>
+                <hr class="my-4">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" id="savedArticle" class="btn btn-secondary">Saved Articles</button>
+                    <button type="button" id="reScrape" class="btn btn-secondary">Find Articles</button>
+                    <button type="button" id="clearArticles" class="btn btn-secondary">Clear</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="wrapper">
+                <div id="articles"></div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,91 +1,47 @@
-html {
-    position: relative;
-    min-height: 100%;
+body {
+    background-size: 600px;
+    font-family: "Oswald", sans-serif;
+    font-size: 16px;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
-.body {
-    margin-bottom: 80px;
-    background-color: #B9A394;
+main {
+    flex: 1 0 auto;
 }
 
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 80px;
-    background-color: #586A6A;
+.articleBody {
+    height: 200px;
+    font-size: 20px;
+    overflow-y: scroll;
+    line-height: 150%;
 }
 
-.navbar {
-    margin-bottom: 0;
+#btnSignUp {
+    background-color: #635f60;
 }
 
-.navbar-brand {
-    font-family: 'Abril Fatface', cursive;
-}
-
-.jumbotron {
-    position: relative;
-    width: 100%;
-    height: 500px;
-    font-family: 'Gelasio', serif;
+#nameComment {
+    /*border-bottom: 2px solid #ec407a;*/
+    font-weight: bold;
+    background: #635f60;
     color: white;
-    outline-color: black;
-    outline-offset: 1em;
-    padding: 0;
 }
 
-.jumbotron .overlay {
-    position: absolute;
-    opacity: 0.7;
-    z-index: auto;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+.input-field input[type="text"]:focus+label {
+    color: #635f60;
 }
 
-.jumbotron .background-image {
-    height: 100%;
-    background-image: url("https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?cs=srgb&dl=folded-newspapers-158651.jpg&fm=jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
+.input-field input[type="text"]:focus {
+    border-bottom: 1px solid #635f60;
+    box-shadow: 0 1px 0 0 #000;
 }
 
-.jumbotron .caption {
-    position: absolute;
-    top: 15%;
-    width: 100%;
-    text-align: center;
+.input-field .prefix.active {
+    color: #635f60;
 }
 
-.scrape-new {
-    cursor: pointer;
-}
-
-.m-top80 {
-    margin-top: 80px;
-}
-
-textarea {
-    resize: none;
-    padding: 10px;
-}
-
-.bootbox-ody .btn {
-    float: right;
-    margin: 5px;
-}
-
-.note.list-group-item {
-    padding: 30px;
-}
-
-.note.list-group-item .btn {
-    position: relative;
-    bottom: 10px;
-}
-
-footer {
-    text-align: center;
+.topnav {
+    background-color: #635f60;
 }

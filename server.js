@@ -1,126 +1,38 @@
-var express = require("express");
-var logger = require("morgan");
+//dependencies
+var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+var logger = require("morgan");
 
-// Scraping tools
-var axios = require("axios");
-var cheerio = require("cheerio");
-
-//Require models
-var db = require(".models");
-
-var PORT = process.env.PORT || 3000;
-
+//initialize Express app
+var express = require("express");
 var app = express();
 
-//use morgan logger for loggin request
 app.use(logger("dev"));
-//parse request body as json
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(
+    bodyParser.urlencoded({
+        extended: false
+    })
+);
 
-//static folder made public
-app.use(express.static("public"));
+app.use(express.static(process.cwd() + "/public"));
 
-MONGODB_URI = process.env.MONGODB_URI || "mongodb://user1:password1@ds211269.mlab.com:11269/heroku_q0vfg6k5";
+var exphbs = require("express-handlebars");
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
+const MONGODB_URI =
+    process.env.MONGODB_URI || "mongodb://localhost/scraper_news";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
-//connection to mongo db
-
-//scraping
-app.get("/scrape", function(req, res) {
-    //grab body of the html with axios
-    axios.get("http://www.nyt.com/").then(function(response) {
-        //load into cheerio and save it
-        var $ = cheerio.load(response.data);
-        //grab every h2 within an article tag
-        $(".theme-summary").each(function(i, element) {
-            //save an empty result object
-            var result = {};
-
-            result.title = $(this)
-                .children("a")
-                .text();
-            result.link = $(this)
-                .children("a")
-                .attr("href");
-
-            //creating article
-            db.Article.create(result)
-                .then(function(dbArticle) {
-                    console.log(dbArticle);
-                }).catch(function(err) {
-                    console.log(err);
-                });
-
-        });
-        //send message to client
-        res.send("Scraping");
-    });
+var db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function() {
+    console.log("Connected to Mongoose!");
 });
-app.get("/delArticles", function(req, res) {
-    //saved article
-    db.Article.remove({})
-        .then(function(dbArticle) {
-            console.log(dbArticle);
-        }).catch(function(err) {
-            console.log(err);
-        });
+var routes = require("./controller/controller.js");
+app.use("/", routes);
+//create localhose port
+var port = process.env.PORT || 3000;
+app.listen(port, function() {
+    console.log("Listening on PORT " + port);
 });
-app.get("/articles", function(req, res) {
-    db.Article.find({})
-        .then(function(dbArticle) {
-            res.json(dbArticle);
-        })
-        .catch(function(err) {
-            res.json(err);
-        });
-});
-app.post("/savedArticles", function(req, res) {
-    db.Saved.create(req.body)
-        .then(function(dbArticle) {
-            console.log(dbArticle);
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
-});
-//route to get artice by id
-app.get("/articles/:id", function(req, res) {
-    db.Article.findOne({ _id: req.params.id })
-        .then(function(dbArticle) {
-            res.json(dbArticle);
-        })
-        .catch(function(err) {
-            res.json(err);
-        });
-});
-//route for getting saved articles
-app.get("/.savedArticles", function(req, res) {
-    db.Saved.find({})
-        .then(function(dbArticle) {
-            res.json(dbArticle);
-        })
-        .catch(function(err) {
-            res.json(err);
-        });
-});
-app.get("/deleteArticle/:id", function(req, res) {
-    db.Saved.removed({ _id: req.params.id })
-        .then(function(dbArticle) {
-            res.json(dbArticle);
-        })
-        .catch(function(err) {
-            res.json(err);
-        });
-});
-//server start
-app.listen(PORT, function() {
-    console.log("App runing on port " + PORT + "!");
-});
-
-
-//.theme-summary
-//.story-heading
-//e.summary
